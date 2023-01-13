@@ -8,17 +8,17 @@ import { Item, ItemDocument } from './schema/items.schema';
 @Injectable()
 export class ItemsService {
 
-  constructor (@InjectModel(Item.name) private itemModule : Model<ItemDocument>) {
+  constructor (@InjectModel(Item.name) private itemModel : Model<ItemDocument>) {
 
   }   
 
   async create(createItemDto: CreateItemDto) {
-    const createdItem = await this.itemModule.create(createItemDto)
+    const createdItem = await this.itemModel.create(createItemDto)
     return `This action adds a new item, reference ${createdItem}`;
   }
 
   async findAll() {
-    const list = await this.itemModule.find({});
+    const list = await this.itemModel.find({});
     return list;
   }
 

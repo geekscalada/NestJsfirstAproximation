@@ -9,12 +9,12 @@ export class AppController {
     private readonly _testGet: TestGetService
     ) {}
 
-  @Get()
+  @Get('helloWorld')
   getHello(): string {
     return this.appService.getHello();
   }
 
-  @Get('users')
+  @Get('testGet')
   getUsers(): string[] {
     return this._testGet.getUserTest()
   }

@@ -5,12 +5,16 @@ import { hash, compare } from 'bcrypt'
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/users/schema/users.schema';
 import { Model } from 'mongoose';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
 
   constructor(
-    @InjectModel(User.name) private readonly userModel: Model<UserDocument>) {
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    private readonly _jwtService: JwtService    
+    
+    ) {
 
   }
 
@@ -41,7 +45,22 @@ export class AuthService {
 
     if(!checkPassword) throw new HttpException('PASSWORD_INCORRECT', 403);
 
-    const data = findUser;
+    
+    const payload = {id: findUser._id, name: findUser.name}
+
+    // We sign payload
+    // Automatically it adds iat (time of creation) and time of expiration
+    const token = this._jwtService.sign(payload)
+
+    // =========================================================
+    // ============ We need to implement a strategy ============
+    // =========================================================
+    const data = {
+      user: findUser,
+      token    
+    }
+
+    //TODO: insert JWT at the browser on the client side
 
     return data;
   }

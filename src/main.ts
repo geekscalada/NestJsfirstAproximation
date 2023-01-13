@@ -7,6 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
   const configSwagger = new DocumentBuilder()
+    .addBearerAuth() //allow JWT field in swagger page
     .setTitle('Courses-web documentation Title')
     .setDescription('Courses-web documentation description')
     .setVersion('1.0')
